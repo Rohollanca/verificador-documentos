@@ -229,6 +229,14 @@ const server = createServer(async (req, res) => {
       return send(res, 200, verificationPage(), 'text/html; charset=utf-8');
     }
 
+    if (req.method === 'GET' && url.pathname === '/health') {
+      return send(res, 200, {
+        ok: true,
+        service: 'verificador-documentos',
+        time: new Date().toISOString()
+      });
+    }
+
     if (req.method === 'POST' && url.pathname === '/api/documentos') {
       const payload = await readJsonBody(req);
       const codigo = normalizeCode(payload.codigo);
